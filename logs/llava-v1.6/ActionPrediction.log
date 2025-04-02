@@ -1,0 +1,11 @@
+[2025-03-31 12:37:26,570] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:29,183] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:29,224] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:29,233] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:29,251] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:31,577] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:31,577] [INFO] [comm.py:689:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[2025-03-31 12:37:31,598] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:31,612] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:31,628] [INFO] [comm.py:658:init_distributed] cdb=None
+2025-03-31 12:37:31.855119: Generation of llava-v1.6 to ActionPrediction

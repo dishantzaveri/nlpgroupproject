@@ -1,0 +1,11 @@
+[2025-03-31 12:37:05,260] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:07,833] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:07,890] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:07,917] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:07,923] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:10,246] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:10,253] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:10,269] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:10,269] [INFO] [comm.py:689:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[2025-03-31 12:37:10,308] [INFO] [comm.py:658:init_distributed] cdb=None
+2025-03-31 12:37:10.445426: Generation of llava-v1.6 to ALFRED

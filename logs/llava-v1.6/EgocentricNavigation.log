@@ -1,0 +1,11 @@
+[2025-03-31 12:35:03,019] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:35:05,620] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:35:05,682] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:35:05,684] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:35:05,686] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:35:07,985] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:35:08,082] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:35:08,083] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:35:08,086] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:35:08,086] [INFO] [comm.py:689:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+2025-03-31 12:35:08.243247: Generation of llava-v1.6 to EgocentricNavigation

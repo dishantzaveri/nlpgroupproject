@@ -1,0 +1,3 @@
+[2025-03-31 12:37:58,658] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:38:01,228] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:38:03,633] [INFO] [comm.py:658:init_distributed] cdb=None

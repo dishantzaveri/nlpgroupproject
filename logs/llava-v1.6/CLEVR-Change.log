@@ -1,0 +1,11 @@
+[2025-03-31 12:37:48,127] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:50,788] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:50,819] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:50,832] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:50,853] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:37:53,153] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:53,189] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:53,208] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:37:53,208] [INFO] [comm.py:689:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[2025-03-31 12:37:53,235] [INFO] [comm.py:658:init_distributed] cdb=None
+2025-03-31 12:37:53.260771: Generation of llava-v1.6 to CLEVR-Change

@@ -1,0 +1,11 @@
+[2025-03-31 12:34:41,412] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:34:44,122] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:34:44,137] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:34:44,147] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:34:44,149] [INFO] [real_accelerator.py:222:get_accelerator] Setting ds_accelerator to cuda (auto detect)
+[2025-03-31 12:34:46,483] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:34:46,483] [INFO] [comm.py:689:init_distributed] Initializing TorchBackend in DeepSpeed with backend nccl
+[2025-03-31 12:34:46,528] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:34:46,540] [INFO] [comm.py:658:init_distributed] cdb=None
+[2025-03-31 12:34:46,545] [INFO] [comm.py:658:init_distributed] cdb=None
+2025-03-31 12:34:46.829167: Generation of llava-v1.6 to CounterfactualInference
