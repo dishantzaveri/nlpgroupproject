@@ -1,0 +1,57 @@
+## LLaVA 7B
+llava-v1.5-7b:
+    model_name: llava-v1.5
+    model_dir: /path/to/your/model/
+    gen_kwargs:
+        max_new_tokens: 512
+        min_new_tokens: 1
+        do_sample: false
+        temperature: 0.0
+
+llava-v1.6-7b:
+    model_name: llava-v1.6-7b
+    model_dir: models/llava-v1.6-vicuna-7b-hf
+    cfg_path: models/llava-v1.6-vicuna-7b-hf/config.json
+    n_tokens_per_image: 576
+    max_context_len: 104000 #4096
+    gen_kwargs:
+        max_new_tokens: 512
+        min_new_tokens: 1
+        do_sample: false
+        temperature: 1.0
+
+llava-onevision-qwen2-7b-ov-hf:
+    model_name: llava-onevision-qwen2-7b-ov-hf
+    model_dir: models/llava-onevision-qwen2-7b-ov-hf
+    cfg_path: models/llava-onevision-qwen2-7b-ov-hf/config.json
+    n_tokens_per_image: 7400 #8748 #729
+    max_context_len: 105072 #32768 #123713
+    gen_kwargs:
+        max_new_tokens: 512
+        min_new_tokens: 1
+        do_sample: false
+        temperature: 1.0
+
+LLaVA_oneVision_cam:
+    model_name: LLaVA_oneVision_cam
+    model_dir: models/llava-onevision-qwen2-7b-ov-hf
+    cfg_path: models/llava-onevision-qwen2-7b-ov-hf/config.json
+    n_tokens_per_image: 7400 #8748 #729
+    max_context_len: 900000 #32768 #123713
+    gen_kwargs:
+        max_new_tokens: 512
+        min_new_tokens: 1
+        do_sample: true
+        temperature: 1.0
+
+LLaVA_oneVision_Sink:
+    model_name: LLaVA_oneVision_Sink
+    model_dir: models/llava-onevision-qwen2-7b-ov-hf
+    cfg_path: models/llava-onevision-qwen2-7b-ov-hf/config.json
+    n_tokens_per_image: 7400 #8748 #729
+    max_context_len: 105072 #200000 #32768 #123713
+    gen_kwargs:
+        max_new_tokens: 512
+        min_new_tokens: 1
+        do_sample: true
+        temperature: 1.0
