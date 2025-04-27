@@ -214,3 +214,76 @@ class LLaVACAM(BaseWorker):
             answers.append(decoded)
 
         return answers
+
+
+
+class LLaVA_Sink(BaseWorker):
+
+    def init_components(self, config):
+        self.model = LlavaForConditionalGeneration.from_pretrained(
+            config.model_dir,
+            torch_dtype=torch.float16, device_map='cuda'
+        )
+        self.processor = AutoProcessor.from_pretrained(config.model_dir, use_fast=True)
+        self.tokenizer = self.processor.tokenizer
+        self.single_img_tokens = "<|im_start|>"+self.processor.image_token+"<|im_end|>"
+
+        self.model.eval()
+
+    def forward(self, questions, image_paths, device, gen_kwargs):
+
+        answers = []
+        print("Actual images being used: ",np.mean([len(i) for i in image_paths]))
+        for question, images_path in zip(questions, image_paths):
+
+            # NOTE: handle the special cases in CLEVR-Change dataset
+            question = question.replace(
+                '<ImageHere><ImageHere>', '<ImageHere>\n<ImageHere>\n')
+            input_prompt = question.replace(
+                '<ImageHere>', self.single_img_tokens)
+            # print(f"######## \n {images_path}")
+            
+            conv = [
+                {
+
+                    "role": "user",
+                    "content": [
+                        {"type": "text", 
+                         "text": input_prompt},
+                        # *([{"type": "image"}] * len(images_path))
+                    ],
+                },
+            ]
+            prompt = self.processor.apply_chat_template(conv, add_generation_prompt=True)
+            # Multi-image
+            images = [Image.open(image_path).convert('RGB')
+                 for image_path in images_path]
+            # print(prompt)
+            # print("images loaded")
+            # print(conv)
+            only_text = self.processor.tokenizer(prompt, return_tensors='pt')
+            # print("only_text inputs ", only_text['input_ids'].shape)
+
+            inputs = self.processor(images=images, text=prompt, return_tensors="pt").to(device)
+            input_ids_len = inputs['input_ids'].shape[1]
+            print("processed inputs ", inputs['input_ids'].shape)
+
+            # with torch.autocast(device_type='cuda', dtype=torch.float16):
+            with torch.no_grad():
+                past_key_values = SinkCache(300, 100)
+                output_ids = self.model.generate(
+                    **inputs,
+                    use_cache=True,
+                    past_key_values = past_key_values,
+                    **gen_kwargs
+                )
+                # print("model generate")
+            # print("output")
+            # print(output_ids.shape, output_ids.device)
+            output_ids = output_ids[0, input_ids_len:]
+            answer = self.processor.decode(output_ids, skip_special_tokens=True).strip()
+            answers.append(answer)
+            del output_ids, inputs, prompt, images, past_key_values
+            torch.cuda.empty_cache()
+
+        return answers
