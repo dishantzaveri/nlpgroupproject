@@ -2,7 +2,8 @@ from workers.baseworker import BaseWorker
 from transformers import (
     LlavaNextProcessor,
     LlavaNextForConditionalGeneration,
-    AutoConfig
+    AutoConfig,
+    SinkCache
 )
 from utils_lm_eval.modify_llama_cam import convert_kvcache_llama_cam
 from PIL import Image
@@ -15,29 +16,33 @@ class LLaVA(BaseWorker):
         llava_cfg = AutoConfig.from_pretrained(model_id, trust_remote_code=True)
 
         llama_cfg = llava_cfg.text_config
-        if getattr(config, "enable_cam", False):
-            llama_cfg.start_ratio  = config.start_ratio
-            llama_cfg.recent_ratio = config.recent_ratio
+        
 
         # processor
         self.processor = LlavaNextProcessor.from_pretrained(model_id, trust_remote_code=True)
 
-        # 1) load model on CPU
+        # store config for streaming
+        self.config = config
+
+        # loading model on CPU
         self.model = LlavaNextForConditionalGeneration.from_pretrained(
             model_id,
             config=llava_cfg,
             torch_dtype=torch.float16
         ).to("cpu")
 
-        # 2) wrap Llama backbone if requested
-        if getattr(config, "enable_cam", False):
-            ckpt = copy.deepcopy(self.model.language_model.state_dict())
-            self.model.language_model = convert_kvcache_llama_cam(
-                self.model.language_model, llama_cfg
-            )
-            self.model.language_model.load_state_dict(ckpt)
+        # wrapping Llama backbone if requested (CAM)
+        if getattr(config, "enable_streaming", False):
+            # no CaM wrapper here Streaming LLM is used in forward()
+            pass
+        elif getattr(config, "enable_cam", False):
+             ckpt = copy.deepcopy(self.model.language_model.state_dict())
+             self.model.language_model = convert_kvcache_llama_cam(
+                 self.model.language_model, llama_cfg
+             )
+             self.model.language_model.load_state_dict(ckpt)
 
-        # 3) then move the full model to GPU once
+        # moving the full model to target device
         self.model = self.model.to(config.device)
         self.model.eval()
 
@@ -47,7 +52,7 @@ class LLaVA(BaseWorker):
     def forward(self, questions, image_paths, device, gen_kwargs):
         answers = []
         for q, imgs in zip(questions, image_paths):
-            # build chat prompt
+            # building chat prompt
             parts = q.split("<ImageHere>")
             content = []
             for i, txt in enumerate(parts):
@@ -59,25 +64,45 @@ class LLaVA(BaseWorker):
             conv   = [{"role":"user","content":content}]
             prompt = self.processor.apply_chat_template(conv, add_generation_prompt=True)
 
-            # load images
+            # load and preprocess images
             pil_imgs = [Image.open(p).convert("RGB") for p in imgs]
-            inputs   = self.processor(images=pil_imgs, text=prompt, return_tensors="pt")
+            inputs   = self.processor(images=pil_imgs, text=prompt, return_tensors="pt").to(self.device)
 
-            # move to device, preserving integer dtypes for input_ids/attention_mask
-            for k, v in inputs.items():
-                inputs[k] = v.to(self.device)
-
-            # cast only float inputs (pixel_values) to half
+            # cast floats to half
             if "pixel_values" in inputs:
                 inputs["pixel_values"] = inputs["pixel_values"].half()
 
+            # streaming or regular generate
             with torch.no_grad():
-                out_ids = self.model.generate(**inputs, **gen_kwargs)
+                if getattr(self.config, "enable_streaming", False):
+                    # Streaming LLM for each example
+                    cache = SinkCache(
+                        window_length=self.config.stream_window_length,
+                        num_sink_tokens=self.config.num_sink_tokens
+                    )
+                    out_ids = self.model.generate(
+                        **inputs,
+                        use_cache=True,
+                        past_key_values=cache,
+                        **gen_kwargs
+                    )
+                else:
+                    out_ids = self.model.generate(
+                        **inputs,
+                        **gen_kwargs
+                    )
 
-            txt = self.processor.tokenizer.decode(
-                out_ids[0][2:], skip_special_tokens=True
-            ).split("assistant:")[-1].strip()
+            # decode skipping special tokens and assistant label
+            seq = out_ids[0]
+            # remove BOS token
+            seq = seq[2:]
+            txt = self.tokenizer.decode(seq, skip_special_tokens=True)
+            txt = txt.split("assistant:")[-1].strip()
             answers.append(txt)
             print("→", txt)
+
+            # cleanup
+            del out_ids, inputs, prompt, pil_imgs
+            torch.cuda.empty_cache()
 
         return answers

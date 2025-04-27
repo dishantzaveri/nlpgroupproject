@@ -1,3 +1,4 @@
+# Evaluate Script from Milebench Repo
 import re
 from rouge import Rouge
 import argparse
@@ -247,9 +248,9 @@ def main(args):
     question_type = core_annotation['meta_data']['question_type']
 
     output_dir = os.path.join(result_dir, dataset)
-    if not os.path.exists(os.path.join(output_dir, 'predictions_cam.json')):
+    if not os.path.exists(os.path.join(output_dir, 'predictions_sllm_f.json')):
         raise ValueError(f'{model_name}--{dataset} No prediction file found')
-    preds = json.load(open(os.path.join(output_dir, 'predictions_cam.json')))
+    preds = json.load(open(os.path.join(output_dir, 'predictions_sllm_f.json')))
     assert preds and len(preds) != 0
 
     scorer = Eval()
@@ -264,8 +265,8 @@ def main(args):
         raise ValueError('Dataset not supported')
 
     print(f"{model_name}:  {dataset}:  {eval_result}")
-    json.dump(eval_result, open(os.path.join(output_dir, 'eval_cam.json'), 'w'))
-    json.dump(eval_list, open(os.path.join(output_dir, 'eval_score_cam.json'), 'w'), indent=4)
+    json.dump(eval_result, open(os.path.join(output_dir, 'eval_predictions_sllm_f.json'), 'w'))
+    json.dump(eval_list, open(os.path.join(output_dir, 'eval_predictions_sllm_f.json'), 'w'), indent=4)
 
 
 if __name__ == '__main__':
