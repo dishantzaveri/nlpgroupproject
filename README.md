@@ -67,7 +67,7 @@ Each of these models was benchmarked using three memory-efficient techniques: **
 
 ---
 
-## 📊 Results and Benchmarks
+##  Results and Benchmarks
 
 ### MMCoQA Accuracy on Long-Context Multimodal Tasks
 
@@ -80,7 +80,7 @@ Each of these models was benchmarked using three memory-efficient techniques: **
 
 ---
 
-### 📉 Memory Footprint Comparison
+### Memory Footprint Comparison
 
 | Model             | Strategy         | GPU Memory Usage |
 |------------------|------------------|------------------|
@@ -118,12 +118,9 @@ Models using **Streaming LLM + Descriptive Generation** processed all image chun
 
 ---
 
-##  Reproducibility: How to Run
-
-```bash
-python evaluation/benchmark_runner.py \
-  --model llava_1.6 \
-  --method streaming_llm \
-  --dataset milebench
-
+###  Contributors
+- Dishant Zaveri
+- Saransh Agrawal
+- Pavan Santosh
+- Faizan Ali
 
