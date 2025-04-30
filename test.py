@@ -30,11 +30,10 @@ all_splits = [
 results = []
 
 for split in all_splits:
-    print(f"\n🔹 Processing split: {split}")
     try:
         dataset = load_dataset("FreedomIntelligence/MileBench", split=split)
     except Exception as e:
-        print(f"❌ Failed to load {split}: {e}")
+        print(f" Failed to load {split}: {e}")
         continue
 
     # Take a small sample to test
@@ -60,4 +59,4 @@ for split in all_splits:
 # Save results
 df = pd.DataFrame(results)
 df.to_csv("minigpt_milebench_results.csv", index=False)
-print("✅ All done. Results saved to 'minigpt_milebench_results.csv'")
+print(" All done. Results saved to 'minigpt_milebench_results.csv'")
